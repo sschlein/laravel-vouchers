@@ -2,10 +2,9 @@
 
 namespace BeyondCode\Vouchers;
 
+use Illuminate\Database\Eloquent\Model;
 use BeyondCode\Vouchers\Exceptions\VoucherExpired;
 use BeyondCode\Vouchers\Exceptions\VoucherIsInvalid;
-use BeyondCode\Vouchers\Models\Voucher;
-use Illuminate\Database\Eloquent\Model;
 
 class Vouchers
 {
@@ -47,7 +46,7 @@ class Vouchers
         $vouchers = [];
 
         foreach ($this->generate($amount) as $voucherCode) {
-            $vouchers[] = Voucher::create([
+            $vouchers[] = (config('vouchers.voucher_model'))::create([
                 'model_id' => $model->getKey(),
                 'model_type' => $model->getMorphClass(),
                 'code' => $voucherCode,
@@ -63,11 +62,11 @@ class Vouchers
      * @param string $code
      * @throws VoucherIsInvalid
      * @throws VoucherExpired
-     * @return Voucher
+     * @return mixed
      */
     public function check(string $code)
     {
-        $voucher = Voucher::whereCode($code)->first();
+        $voucher = (config('vouchers.voucher_model'))::whereCode($code)->first();
 
         if ($voucher === null) {
             throw VoucherIsInvalid::withCode($code);
@@ -86,7 +85,7 @@ class Vouchers
     {
         $voucher = $this->generator->generateUnique();
 
-        while (Voucher::whereCode($voucher)->count() > 0) {
+        while ((config('vouchers.voucher_model'))::whereCode($voucher)->count() > 0) {
             $voucher = $this->generator->generateUnique();
         }
 

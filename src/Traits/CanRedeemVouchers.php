@@ -3,7 +3,6 @@
 namespace BeyondCode\Vouchers\Traits;
 
 use Vouchers;
-use BeyondCode\Vouchers\Models\Voucher;
 use BeyondCode\Vouchers\Events\VoucherRedeemed;
 use BeyondCode\Vouchers\Exceptions\VoucherExpired;
 use BeyondCode\Vouchers\Exceptions\VoucherIsInvalid;
@@ -45,7 +44,7 @@ trait CanRedeemVouchers
      * @throws VoucherAlreadyRedeemed
      * @return mixed
      */
-    public function redeemVoucher(Voucher $voucher)
+    public function redeemVoucher($voucher)
     {
         return $this->redeemCode($voucher->code);
     }
@@ -55,6 +54,6 @@ trait CanRedeemVouchers
      */
     public function vouchers()
     {
-        return $this->belongsToMany(Voucher::class)->withPivot('redeemed_at');
+        return $this->belongsToMany(config('vouchers.voucher_model'))->withPivot('redeemed_at');
     }
 }

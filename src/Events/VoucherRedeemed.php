@@ -3,7 +3,6 @@
 namespace BeyondCode\Vouchers\Events;
 
 use Illuminate\Queue\SerializesModels;
-use BeyondCode\Vouchers\Models\Voucher;
 
 class VoucherRedeemed
 {
@@ -11,10 +10,9 @@ class VoucherRedeemed
 
     public $user;
 
-    /** @var Voucher */
     public $voucher;
 
-    public function __construct($user, Voucher $voucher)
+    public function __construct($user, $voucher)
     {
         $this->user = $user;
         $this->voucher = $voucher;

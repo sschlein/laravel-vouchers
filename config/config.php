@@ -48,4 +48,9 @@ return [
      * The user model that belongs to vouchers.
      */
     'user_model' => \App\User::class,
+
+    /*
+     * The voucher model that is applied to the user model.
+     */
+    'voucher_model' => \BeyondCode\Vouchers\Models\Voucher::class,
 ];

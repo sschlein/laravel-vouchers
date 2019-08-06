@@ -2,7 +2,6 @@
 
 namespace BeyondCode\Vouchers\Traits;
 
-use BeyondCode\Vouchers\Models\Voucher;
 use BeyondCode\Vouchers\Facades\Vouchers;
 
 trait HasVouchers
@@ -14,14 +13,14 @@ trait HasVouchers
      */
     public function vouchers()
     {
-        return $this->morphMany(Voucher::class, 'model');
+        return $this->morphMany(config('vouchers.voucher_model'), 'model');
     }
 
     /**
      * @param int $amount
      * @param array $data
      * @param null $expires_at
-     * @return Voucher[]
+     * @return mixed[]
      */
     public function createVouchers(int $amount, array $data = [], $expires_at = null)
     {
@@ -31,7 +30,7 @@ trait HasVouchers
     /**
      * @param array $data
      * @param null $expires_at
-     * @return Voucher
+     * @return mixed
      */
     public function createVoucher(array $data = [], $expires_at = null)
     {
